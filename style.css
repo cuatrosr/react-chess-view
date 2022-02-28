@@ -18,10 +18,21 @@ body {
     display: grid;
     grid-template-columns: repeat(8,1fr);
     grid-template-rows: repeat(8,1fr);
-    background-color: #fff;
     border: 1px solid black;
 }
 
 .a {
     background-color: #2aa59f;
+}
+
+.a:hover {
+    background-color: #47cac4;
+}
+
+.b {
+    background-color: #ffffff;
+}
+
+.b:hover {
+    background-color: #f3f3f3;
 }
