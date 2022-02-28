@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>Hello World</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="root"></div>
     <div id="timer"></div>
     <script type="text/babel">
         class Timer extends React.Component {
             constructor(props) {
-            super(props);
-            this.state = { seconds: 60};
+                super(props);
+                this.state = { seconds: 60 };
             }
-        
 
             tick() {
                 this.setState(state => ({
-                seconds: state.seconds - 1,
+                    seconds: state.seconds - this.checkSec(),
                 }));
+            }
+
+            checkSec() {
+                if (this.state.seconds > 0) {
+                    return 1;
+                } else {
+                    return 0;
+                }
             }
 
             componentDidMount() {
@@ -42,10 +50,107 @@
                 );
             }
         }
+
         ReactDOM.render(
             < Timer />,
             document.getElementById('timer')
         );
+
+        class Board extends React.Component {
+            render() {
+                return (
+                    <div className="tablero">
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                        <div></div>
+                        <div className="a"></div>
+                    </div>
+                );
+            }
+        }
+
+        class Game extends React.Component {
+            render() {
+                return (
+                    <div className="game">
+                        <div className="game-board">
+                            <Board />
+                        </div>
+                        <div className="game-info">
+                            <div>{/* status */}</div>
+                            <ol>{/* TODO */}</ol>
+                        </div>
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            < Game />,
+            document.getElementById('root')
+        );
+
     </script>
-  </body>
+</body>
+
 </html>
