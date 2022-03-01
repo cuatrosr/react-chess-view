@@ -21,15 +21,20 @@
                 this.y = props.y;
                 this.color = props.color;
             }
+
             render() {
                 const mystyle = {
                     backgroundColor: this.color,
-                    borderWidth: "0px"
+                    borderWidth: "0px",
                 }
                 return (
-                    <button className="square" style={mystyle}></button>
+                    <button className="square" style={mystyle} onClick={() => handleClick(this)}></button>
                 )
             }
+        }
+
+        function handleClick(event) {
+            console.log(event.x + ", " + event.y)
         }
 
         class Board extends React.Component {
