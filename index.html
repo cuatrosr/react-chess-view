@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>CHESS</title>
+    <title>ChessBoard</title>
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <style>
@@ -113,14 +113,14 @@
             handleClick(i) {
                 const squares = this.state.squares.slice();
                 
-                if (end(this.state.seconds, this.state.minutes) || !this.state.start) {
+                if (endGame(this.state.seconds, this.state.minutes) || !this.state.start) {
                     return;
                 }
 
-                this.state.score = this.state.score + score(this.state.tile, i);
+                this.state.score = this.state.score + checkScore(this.state.tile, i);
 
-                if (score(this.state.tile, i) === 1) {
-                    this.time();
+                if (checkScore(this.state.tile, i) === 1) {
+                    this.timeOnClic();
                     const plays={
                         text : "Tile:" + this.state.tile + ",  guess time 0:" + this.state.displaytTimer +" ✓",
                         id : this.state.moves
@@ -129,7 +129,7 @@
                     this.state.history = this.state.history.concat(plays);
                     squares[i] = '✓';
                 } else {
-                    this.time();
+                    this.timeOnClic();
                     const plays={
                         text : "Tile:" + this.state.tile + ",  guess time 0:" + this.state.displaytTimer+" X",
                         id : this.state.moves
@@ -138,7 +138,7 @@
                     this.state.history = this.state.history.concat(plays);
                     squares[i] = 'X';
                 }
-                this.state.tile = tile();
+                this.state.tile = getRandomTile();
 
 
                 this.setState({
@@ -157,11 +157,11 @@
 
             renderPlayButton() {
                 return <button onClick={() => this.startGame()} >
-                    {this.start()}
+                    {this.startGameText()}
                 </button>
             }
 
-            start() {
+            startGameText() {
                 let text = "Restart"
                 if (this.state.start === false) {
                     text = "Play";
@@ -172,13 +172,13 @@
             startGame() {
                 if (this.state.start === false) {
                     this.state.start = true;
-                    this.state.tile = tile();
+                    this.state.tile = getRandomTile();
                 } else {
                     this.state.timer=60;
                     this.state.seconds = 0;
                     this.state.minutes = 1;
                     this.state.score = 0;
-                    this.state.tile = tile();
+                    this.state.tile = getRandomTile();
                     this.state.history=[];
                     this.state.moves=0;
                 }
@@ -187,25 +187,25 @@
 
             tick() {
                 this.setState(state => ({
-                    seconds: state.seconds + this.seconds(),
-                    minutes: state.minutes + this.minutes(),
+                    seconds: state.seconds + this.checkSeconds(),
+                    minutes: state.minutes + this.checkMin(),
                 }));
             }
 
-            interval() {
+            componentDidMount() {
                 this.interval = setInterval(() => this.tick(), 1000);
             }
 
-            clearInterval() {
+            componentWillUnmount() {
                 clearInterval(this.interval);
             }
 
-            time() {
+            timeOnClic() {
                 this.state.displaytTimer = this.state.timer - this.state.seconds;
                 this.state.timer = this.state.seconds;
             }
 
-            minutes() {
+            checkMin() {
                 let sum = 0;
                 if (this.state.minutes === 1 & this.state.start) {
                     sum = -1;
@@ -213,7 +213,7 @@
                 return sum;
             }
 
-            seconds() {
+            checkSeconds() {
                 let sum = 0;
                 if (this.state.minutes === 1 & this.state.start) {
                     sum = 59;
@@ -223,9 +223,8 @@
                 return sum;
             }
 
-
             render() {
-                const end = end(this.state.seconds, this.state.minutes);
+                const end = endGame(this.state.seconds, this.state.minutes);
                 let status;
                 if (end) {
                     status = 'Time is up!!! final score: ' + this.state.score * 15 + ', Number of correct guesses: ' + this.state.score;
@@ -335,6 +334,34 @@
                     </div>
                 );
             }
+        }
+
+        function checkScore(tile, i) {
+            let sum = 0;
+            if (tile === i) {
+                sum = 1;
+            }
+            return sum;
+        }
+
+        function getRandomTile() {
+            const list = ['a8', 'a7', 'a6', 'a5', 'a4', 'a3', 'a2', 'a1',
+                'b8', 'b7', 'b6', 'b5', 'b4', 'b3', 'b2', 'b1',
+                'c8', 'c7', 'c6', 'c5', 'c4', 'c3', 'c2', 'c1',
+                'd8', 'd7', 'd6', 'd5', 'd4', 'd3', 'd2', 'd1',
+                'e8', 'e7', 'e6', 'e5', 'e4', 'e3', 'e2', 'e1',
+                'f8', 'f7', 'f6', 'f5', 'f4', 'f3', 'f2', 'f1',
+                'g8', 'g7', 'g6', 'g5', 'g4', 'g3', 'g2', 'g1',
+                'h8', 'h7', 'h6', 'h5', 'h4', 'h3', 'h2', 'h1'];
+            return list[Math.floor(Math.random() * (63 - 0) + 0)];
+        }
+
+        function endGame(seconds, minutes) {
+            let end = false;
+            if (seconds === 0 & minutes === 0) {
+                end = true;
+            }
+            return end;
         }
 
         ReactDOM.render(
