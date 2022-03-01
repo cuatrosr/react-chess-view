@@ -12,120 +12,107 @@
 
 <body>
     <div id="root"></div>
-    <div id="timer"></div>
     <script type="text/babel">
-        class Timer extends React.Component {
+
+        class Square extends React.Component {
             constructor(props) {
                 super(props);
-                this.state = { seconds: 60 };
+                this.x = props.x;
+                this.y = props.y;
+                this.color = props.color;
             }
-
-            tick() {
-                this.setState(state => ({
-                    seconds: state.seconds - this.checkSec(),
-                }));
-            }
-
-            checkSec() {
-                if (this.state.seconds > 0) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
-
-            componentDidMount() {
-                this.interval = setInterval(() => this.tick(), 1000);
-            }
-
-            componentWillUnmount() {
-                clearInterval(this.interval);
-            }
-
             render() {
+                const mystyle = {
+                    backgroundColor: this.color,
+                    borderWidth: "0px"
+                }
                 return (
-                    <div>
-                        Time: {this.state.seconds}
-                    </div>
-                );
+                    <button className="square" style={mystyle}></button>
+                )
             }
         }
 
-        ReactDOM.render(
-            < Timer />,
-            document.getElementById('timer')
-        );
-
         class Board extends React.Component {
+            renderSquare(x, y, color) {
+                return <Square x={x} y={y} color={color} />;
+            }
+
             render() {
                 return (
                     <div className="tablero">
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
-                        <div className="b"></div>
-                        <div className="a"></div>
+                        {this.renderSquare('a', 8, '#00725D')}
+                        {this.renderSquare('b', 8, 'white')}
+                        {this.renderSquare('c', 8, '#00725D')}
+                        {this.renderSquare('d', 8, 'white')}
+                        {this.renderSquare('e', 8, '#00725D')}
+                        {this.renderSquare('f', 8, 'white')}
+                        {this.renderSquare('g', 8, '#00725D')}
+                        {this.renderSquare('h', 8, 'white')}
+
+                        {this.renderSquare('a', 7, 'white')}
+                        {this.renderSquare('b', 7, '#00725D')}
+                        {this.renderSquare('c', 7, 'white')}
+                        {this.renderSquare('d', 7, '#00725D')}
+                        {this.renderSquare('e', 7, 'white')}
+                        {this.renderSquare('f', 7, '#00725D')}
+                        {this.renderSquare('g', 7, 'white')}
+                        {this.renderSquare('h', 7, '#00725D')}
+
+                        {this.renderSquare('a', 6, '#00725D')}
+                        {this.renderSquare('b', 6, 'white')}
+                        {this.renderSquare('c', 6, '#00725D')}
+                        {this.renderSquare('d', 6, 'white')}
+                        {this.renderSquare('e', 6, '#00725D')}
+                        {this.renderSquare('f', 6, 'white')}
+                        {this.renderSquare('g', 6, '#00725D')}
+                        {this.renderSquare('h', 6, 'white')}
+
+                        {this.renderSquare('a', 5, 'white')}
+                        {this.renderSquare('b', 5, '#00725D')}
+                        {this.renderSquare('c', 5, 'white')}
+                        {this.renderSquare('d', 5, '#00725D')}
+                        {this.renderSquare('e', 5, 'white')}
+                        {this.renderSquare('f', 5, '#00725D')}
+                        {this.renderSquare('g', 5, 'white')}
+                        {this.renderSquare('h', 5, '#00725D')}
+
+                        {this.renderSquare('a', 4, '#00725D')}
+                        {this.renderSquare('b', 4, 'white')}
+                        {this.renderSquare('c', 4, '#00725D')}
+                        {this.renderSquare('d', 4, 'white')}
+                        {this.renderSquare('e', 4, '#00725D')}
+                        {this.renderSquare('f', 4, 'white')}
+                        {this.renderSquare('g', 4, '#00725D')}
+                        {this.renderSquare('h', 4, 'white')}
+
+                        {this.renderSquare('a', 3, 'white')}
+                        {this.renderSquare('b', 3, '#00725D')}
+                        {this.renderSquare('c', 3, 'white')}
+                        {this.renderSquare('d', 3, '#00725D')}
+                        {this.renderSquare('e', 3, 'white')}
+                        {this.renderSquare('f', 3, '#00725D')}
+                        {this.renderSquare('g', 3, 'white')}
+                        {this.renderSquare('h', 3, '#00725D')}
+
+                        {this.renderSquare('a', 2, '#00725D')}
+                        {this.renderSquare('b', 2, 'white')}
+                        {this.renderSquare('c', 2, '#00725D')}
+                        {this.renderSquare('d', 2, 'white')}
+                        {this.renderSquare('e', 2, '#00725D')}
+                        {this.renderSquare('f', 2, 'white')}
+                        {this.renderSquare('g', 2, '#00725D')}
+                        {this.renderSquare('h', 2, 'white')}
+
+                        {this.renderSquare('a', 1, 'white')}
+                        {this.renderSquare('b', 1, '#00725D')}
+                        {this.renderSquare('c', 1, 'white')}
+                        {this.renderSquare('d', 1, '#00725D')}
+                        {this.renderSquare('e', 1, 'white')}
+                        {this.renderSquare('f', 1, '#00725D')}
+                        {this.renderSquare('g', 1, 'white')}
+                        {this.renderSquare('h', 1, '#00725D')}
                     </div>
-                );
+                )
             }
         }
 
@@ -146,7 +133,7 @@
         }
 
         ReactDOM.render(
-            < Game />,
+            <Game />,
             document.getElementById('root')
         );
 
