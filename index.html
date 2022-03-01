@@ -3,14 +3,74 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Hello World</title>
-    <link rel="stylesheet" href="style.css">
+    <title>CHESS</title>
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <style>
+
+        body {
+            font: 20px "Arial", Futura, sans-serif;
+            margin: 20px;
+        }
+
+        ol,
+        ul {
+            padding-left: 30px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .board {
+            border: 1px solid black
+        }
+
+        .board-row:after {
+            clear: both;
+            content: "";
+            display: table;
+        }
+
+        .status {
+            margin-bottom: 10px;
+        }
+
+        .square {
+            float: left;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 34px;
+            width: 64px;
+            height: 64px;
+            padding: 0;
+            text-align: center;
+        }
+
+        .square:focus {
+            outline: none;
+        }
+
+        .kbd-navigation .square:focus {
+            background: #ddd;
+        }
+
+        .game {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .game-info {
+            margin-left: 20px;
+        }
+    </style>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 
 <body>
+    <div id="timer"></div>
     <div id="root"></div>
     <script type="text/babel">
 
@@ -33,116 +93,237 @@
             }
         }
 
-        function handleClick(event) {
-            console.log(event.x + ", " + event.y)
-        }
-
         class Board extends React.Component {
-            renderSquare(x, y, color) {
-                return <Square x={x} y={y} color={color} />;
+            constructor(props) {
+                super(props);
+                this.state = {
+                    squares: Array(64).fill(null),
+                    history: [],
+                    score: 0,
+                    tile: '  ',
+                    minutes: 1,
+                    seconds: 0,
+                    displaytTimer: 0,
+                    timer: 60,
+                    start: false,
+                    moves:0
+                };
             }
 
-            render() {
-                return (
-                    <div className="tablero">
-                        {this.renderSquare('a', 8, '#00725D')}
-                        {this.renderSquare('b', 8, 'white')}
-                        {this.renderSquare('c', 8, '#00725D')}
-                        {this.renderSquare('d', 8, 'white')}
-                        {this.renderSquare('e', 8, '#00725D')}
-                        {this.renderSquare('f', 8, 'white')}
-                        {this.renderSquare('g', 8, '#00725D')}
-                        {this.renderSquare('h', 8, 'white')}
+            handleClick(i) {
+                const squares = this.state.squares.slice();
+                
+                if (end(this.state.seconds, this.state.minutes) || !this.state.start) {
+                    return;
+                }
 
-                        {this.renderSquare('a', 7, 'white')}
-                        {this.renderSquare('b', 7, '#00725D')}
-                        {this.renderSquare('c', 7, 'white')}
-                        {this.renderSquare('d', 7, '#00725D')}
-                        {this.renderSquare('e', 7, 'white')}
-                        {this.renderSquare('f', 7, '#00725D')}
-                        {this.renderSquare('g', 7, 'white')}
-                        {this.renderSquare('h', 7, '#00725D')}
+                this.state.score = this.state.score + score(this.state.tile, i);
 
-                        {this.renderSquare('a', 6, '#00725D')}
-                        {this.renderSquare('b', 6, 'white')}
-                        {this.renderSquare('c', 6, '#00725D')}
-                        {this.renderSquare('d', 6, 'white')}
-                        {this.renderSquare('e', 6, '#00725D')}
-                        {this.renderSquare('f', 6, 'white')}
-                        {this.renderSquare('g', 6, '#00725D')}
-                        {this.renderSquare('h', 6, 'white')}
+                if (score(this.state.tile, i) === 1) {
+                    this.time();
+                    const plays={
+                        text : "Tile:" + this.state.tile + ",  guess time 0:" + this.state.displaytTimer +" ✓",
+                        id : this.state.moves
+                    }
+                    this.state.moves =this.state.moves+1;
+                    this.state.history = this.state.history.concat(plays);
+                    squares[i] = '✓';
+                } else {
+                    this.time();
+                    const plays={
+                        text : "Tile:" + this.state.tile + ",  guess time 0:" + this.state.displaytTimer+" X",
+                        id : this.state.moves
+                    }
+                    this.state.moves =this.state.moves+1;
+                    this.state.history = this.state.history.concat(plays);
+                    squares[i] = 'X';
+                }
+                this.state.tile = tile();
 
-                        {this.renderSquare('a', 5, 'white')}
-                        {this.renderSquare('b', 5, '#00725D')}
-                        {this.renderSquare('c', 5, 'white')}
-                        {this.renderSquare('d', 5, '#00725D')}
-                        {this.renderSquare('e', 5, 'white')}
-                        {this.renderSquare('f', 5, '#00725D')}
-                        {this.renderSquare('g', 5, 'white')}
-                        {this.renderSquare('h', 5, '#00725D')}
 
-                        {this.renderSquare('a', 4, '#00725D')}
-                        {this.renderSquare('b', 4, 'white')}
-                        {this.renderSquare('c', 4, '#00725D')}
-                        {this.renderSquare('d', 4, 'white')}
-                        {this.renderSquare('e', 4, '#00725D')}
-                        {this.renderSquare('f', 4, 'white')}
-                        {this.renderSquare('g', 4, '#00725D')}
-                        {this.renderSquare('h', 4, 'white')}
+                this.setState({
+                    squares: squares
+                });
 
-                        {this.renderSquare('a', 3, 'white')}
-                        {this.renderSquare('b', 3, '#00725D')}
-                        {this.renderSquare('c', 3, 'white')}
-                        {this.renderSquare('d', 3, '#00725D')}
-                        {this.renderSquare('e', 3, 'white')}
-                        {this.renderSquare('f', 3, '#00725D')}
-                        {this.renderSquare('g', 3, 'white')}
-                        {this.renderSquare('h', 3, '#00725D')}
-
-                        {this.renderSquare('a', 2, '#00725D')}
-                        {this.renderSquare('b', 2, 'white')}
-                        {this.renderSquare('c', 2, '#00725D')}
-                        {this.renderSquare('d', 2, 'white')}
-                        {this.renderSquare('e', 2, '#00725D')}
-                        {this.renderSquare('f', 2, 'white')}
-                        {this.renderSquare('g', 2, '#00725D')}
-                        {this.renderSquare('h', 2, 'white')}
-
-                        {this.renderSquare('a', 1, 'white')}
-                        {this.renderSquare('b', 1, '#00725D')}
-                        {this.renderSquare('c', 1, 'white')}
-                        {this.renderSquare('d', 1, '#00725D')}
-                        {this.renderSquare('e', 1, 'white')}
-                        {this.renderSquare('f', 1, '#00725D')}
-                        {this.renderSquare('g', 1, 'white')}
-                        {this.renderSquare('h', 1, '#00725D')}
-                    </div>
-                )
+                
             }
-        }
 
-        class Game extends React.Component {
+            renderSquare(i, color) {
+                return <Square value={this.state.squares[i]}
+                    onClick={() => this.handleClick(i)}
+                    color={color}
+                />;
+            }
+
+            renderPlayButton() {
+                return <button onClick={() => this.startGame()} >
+                    {this.start()}
+                </button>
+            }
+
+            start() {
+                let text = "Restart"
+                if (this.state.start === false) {
+                    text = "Play";
+                }
+                return text;
+            }
+            
+            startGame() {
+                if (this.state.start === false) {
+                    this.state.start = true;
+                    this.state.tile = tile();
+                } else {
+                    this.state.timer=60;
+                    this.state.seconds = 0;
+                    this.state.minutes = 1;
+                    this.state.score = 0;
+                    this.state.tile = tile();
+                    this.state.history=[];
+                    this.state.moves=0;
+                }
+
+            }
+
+            tick() {
+                this.setState(state => ({
+                    seconds: state.seconds + this.seconds(),
+                    minutes: state.minutes + this.minutes(),
+                }));
+            }
+
+            interval() {
+                this.interval = setInterval(() => this.tick(), 1000);
+            }
+
+            clearInterval() {
+                clearInterval(this.interval);
+            }
+
+            time() {
+                this.state.displaytTimer = this.state.timer - this.state.seconds;
+                this.state.timer = this.state.seconds;
+            }
+
+
             render() {
+                const end = end(this.state.seconds, this.state.minutes);
+                let status;
+                if (end) {
+                    status = 'Time is up!!! final score: ' + this.state.score * 15 + ', Number of correct guesses: ' + this.state.score;
+                } else {
+                    status = 'Score ' + this.state.score*15;
+                }
+
                 return (
-                    <div className="game">
-                        <div className="game-board">
-                            <Board />
+                    <div>
+                        Time: {this.state.minutes}:{this.state.seconds}
+                        <div className="tileSearch">Search for this tile: {this.state.tile}</div>
+                        <div className="status">{status}</div>
+                        <div className="container">
+                            <div className="board">
+                                <div className="board-row">
+                                    {this.renderSquare('a8', '#00725D')}8
+                                    {this.renderSquare('b8', 'white')}
+                                    {this.renderSquare('c8', '#00725D')}
+                                    {this.renderSquare('d8', 'white')}
+                                    {this.renderSquare('e8', '#00725D')}
+                                    {this.renderSquare('f8', 'white')}
+                                    {this.renderSquare('g8', '#00725D')}
+                                    {this.renderSquare('h8', 'white')}
+                                </div>
+                                <div className="board-row">
+                                    {this.renderSquare('a7', 'white')}7
+                                    {this.renderSquare('b7', '#00725D')}
+                                    {this.renderSquare('c7', 'white')}
+                                    {this.renderSquare('d7', '#00725D')}
+                                    {this.renderSquare('e7', 'white')}
+                                    {this.renderSquare('f7', '#00725D')}
+                                    {this.renderSquare('g7', 'white')}
+                                    {this.renderSquare('h7', '#00725D')}
+                                </div>
+                                <div className="board-row">
+                                    {this.renderSquare('a6', '#00725D')}6
+                                    {this.renderSquare('b6', 'white')}
+                                    {this.renderSquare('c6', '#00725D')}
+                                    {this.renderSquare('d6', 'white')}
+                                    {this.renderSquare('e6', '#00725D')}
+                                    {this.renderSquare('f6', 'white')}
+                                    {this.renderSquare('g6', '#00725D')}
+                                    {this.renderSquare('h6', 'white')}
+                                </div>
+                                <div className="board-row">
+                                    {this.renderSquare('a5', 'white')}5
+                                    {this.renderSquare('b5', '#00725D')}
+                                    {this.renderSquare('c5', 'white')}
+                                    {this.renderSquare('d5', '#00725D')}
+                                    {this.renderSquare('e5', 'white')}
+                                    {this.renderSquare('f5', '#00725D')}
+                                    {this.renderSquare('g5', 'white')}
+                                    {this.renderSquare('h5', '#00725D')}
+                                </div>
+                                <div className="board-row">
+                                    {this.renderSquare('a4', '#00725D')}4
+                                    {this.renderSquare('b4', 'white')}
+                                    {this.renderSquare('c4', '#00725D')}
+                                    {this.renderSquare('d4', 'white')}
+                                    {this.renderSquare('e4', '#00725D')}
+                                    {this.renderSquare('f4', 'white')}
+                                    {this.renderSquare('g4', '#00725D')}
+                                    {this.renderSquare('h4', 'white')}
+                                </div>
+                                <div className="board-row">
+                                    {this.renderSquare('a3', 'white')}3
+                                    {this.renderSquare('b3', '#00725D')}
+                                    {this.renderSquare('c3', 'white')}
+                                    {this.renderSquare('d3', '#00725D')}
+                                    {this.renderSquare('e3', 'white')}
+                                    {this.renderSquare('f3', '#00725D')}
+                                    {this.renderSquare('g3', 'white')}
+                                    {this.renderSquare('h3', '#00725D')}
+                                </div>
+                                <div className="board-row">
+                                    {this.renderSquare('a2', '#00725D')}2
+                                    {this.renderSquare('b2', 'white')}
+                                    {this.renderSquare('c2', '#00725D')}
+                                    {this.renderSquare('d2', 'white')}
+                                    {this.renderSquare('e2', '#00725D')}
+                                    {this.renderSquare('f2', 'white')}
+                                    {this.renderSquare('g2', '#00725D')}
+                                    {this.renderSquare('h2', 'white')}
+                                </div>
+                                <div className="board-row">
+                                    {this.renderSquare('a1', 'white')}1
+                                    {this.renderSquare('b1', '#00725D')}
+                                    {this.renderSquare('c1', 'white')}
+                                    {this.renderSquare('d1', '#00725D')}
+                                    {this.renderSquare('e1', 'white')}
+                                    {this.renderSquare('f1', '#00725D')}
+                                    {this.renderSquare('g1', 'white')}
+                                    {this.renderSquare('h1', '#00725D')}
+                                </div>
+                            </div>
+                            <div className="container2"></div>
+                            
+                        <div> <p>a          b      c      d      e      f      g      h</p></div>
                         </div>
-                        <div className="game-info">
-                            <div>{/* status */}</div>
-                            <ol>{/* TODO */}</ol>
-                        </div>
+                        
+                        {this.renderPlayButton()}
+                        <ul>
+                            {this.state.history.map(item => (
+                                <li key={item.id}>{item.text}</li>
+                            ))}
+                        </ul>
                     </div>
                 );
             }
         }
 
         ReactDOM.render(
-            <Game />,
+            <Board />,
             document.getElementById('root')
         );
 
     </script>
 </body>
-
 </html>
