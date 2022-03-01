@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>ChessBoard</title>
+    <title>CHESS</title>
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <style>
@@ -43,8 +43,8 @@
             font-size: 24px;
             font-weight: bold;
             line-height: 34px;
-            width: 64px;
-            height: 64px;
+            width: 50px;
+            height: 50px;
             padding: 0;
             text-align: center;
         }
@@ -65,6 +65,14 @@
         .game-info {
             margin-left: 20px;
         }
+        .playButtonAction {
+            align-self: center;
+            margin-left: 50%;
+            margin-right: 50%;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
     </style>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
@@ -122,7 +130,7 @@
                 if (checkScore(this.state.tile, i) === 1) {
                     this.timeOnClic();
                     const plays={
-                        text : "Tile:" + this.state.tile + ",  guess time 0:" + this.state.displaytTimer +" ✓",
+                        text : "Tile:" + this.state.tile + ", Time 0:" + this.state.displaytTimer +" ✓",
                         id : this.state.moves
                     }
                     this.state.moves =this.state.moves+1;
@@ -131,7 +139,7 @@
                 } else {
                     this.timeOnClic();
                     const plays={
-                        text : "Tile:" + this.state.tile + ",  guess time 0:" + this.state.displaytTimer+" X",
+                        text : "Tile:" + this.state.tile + ", Time 0:" + this.state.displaytTimer+" X",
                         id : this.state.moves
                     }
                     this.state.moves =this.state.moves+1;
@@ -156,7 +164,7 @@
             }
 
             renderPlayButton() {
-                return <button onClick={() => this.startGame()} >
+                return <button className="playButtonAction" onClick={() => this.startGame()} >
                     {this.startGameText()}
                 </button>
             }
@@ -227,7 +235,7 @@
                 const end = endGame(this.state.seconds, this.state.minutes);
                 let status;
                 if (end) {
-                    status = 'Time is up!!! final score: ' + this.state.score * 15 + ', Number of correct guesses: ' + this.state.score;
+                    status = 'Score: ' + this.state.score * 15 + ', Correct tiles: ' + this.state.score;
                 } else {
                     status = 'Score ' + this.state.score*15;
                 }
@@ -235,7 +243,7 @@
                 return (
                     <div>
                         Time: {this.state.minutes}:{this.state.seconds}
-                        <div className="tileSearch">Search for this tile: {this.state.tile}</div>
+                        <div className="tileSearch">Tile: {this.state.tile}</div>
                         <div className="status">{status}</div>
                         <div className="container">
                             <div className="board">
