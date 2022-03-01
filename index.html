@@ -205,6 +205,24 @@
                 this.state.timer = this.state.seconds;
             }
 
+            minutes() {
+                let sum = 0;
+                if (this.state.minutes === 1 & this.state.start) {
+                    sum = -1;
+                }
+                return sum;
+            }
+
+            seconds() {
+                let sum = 0;
+                if (this.state.minutes === 1 & this.state.start) {
+                    sum = 59;
+                } else if (this.state.seconds > 0 & this.state.start) {
+                    sum = -1;
+                }
+                return sum;
+            }
+
 
             render() {
                 const end = end(this.state.seconds, this.state.minutes);
