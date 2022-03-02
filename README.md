@@ -7,7 +7,7 @@
 <p align="left">
     <a href="https://code.visualstudio.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/vscode/vscode-original.svg" height="60" width = "60"></a>
      <a href="https://html.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/html5/html5-original.svg" height="60" width = "60"></a>
-  <a href="https://html.com/" target="_blank"> <img src="https://cdn.freebiesupply.com/logos/large/2x/react-1-logo-png-transparent.png" height="60" width = "60"></a>
+  <a href="https://es.reactjs.org/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/react/react-original.svg" height="60" width = "60"></a>
 </p>
 
 ## ***Versioned*** 📌
@@ -17,7 +17,7 @@
     <a href="https://github.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/github/github-original.svg" height="60" width = "60"></a>
 </p>
 
-*For all the updates of the software, check the releases [here](https://github.com/danielaolartebo/PI1-RBE/tags).*
+*For all the updates of the software, check the releases [here](https://github.com/cuatrosr/react-chess-view/tags).*
 
 ## ***Local Deploy*** 📦
 
@@ -25,9 +25,7 @@
 
 1️⃣ *Clone or download the repository*
 
-2️⃣ *Open it on your visual studio code IDE*
-
-5️⃣ *Run the project on the IDE*
+2️⃣ *Open the index.html*
 
 ## ***Authors*** ✒️
 
